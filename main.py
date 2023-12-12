@@ -1,7 +1,8 @@
 from my_utils.menu_components.menu import Menu,Add_option,Login_manager
-from my_utils.users_components.user import Person,User
+from my_utils.user_components.user import Person,User
 from my_utils.car_components.car import Car
-import my_utils.menu_components.login_manager
+from my_utils.menu_components.menu import Menu
+
 def start_menu(login_manager,user_type):
     lm = login_manager
     option1 = Add_option("List cars",Car.list_cars,1)
@@ -12,7 +13,8 @@ def start_menu(login_manager,user_type):
     option3 = Add_option("Exit", exit, 10) # Lägger till en prioritet för att sortera alternativen
 
     # Skapar en huvudmenu med alternativen
-    main_menu = my_utils.menu_components.menu.Menu("Main Menu", [option1, option2, option3])
+    main_menu = Menu("Main Menu", [option1, option2, option3])
+
 
 
     # Skapar några undermenualternativ
@@ -25,61 +27,15 @@ def start_menu(login_manager,user_type):
 def user_type1_menu():
 
     global lm
-    option1 = menu.add_option("Handle Cars",lambda: print("Here we can manage Cars"),1)
-    option2 = menu.add_option("Handle Users",lambda: print("Here we can manage Users"),2)
-    option3 = menu.add_option("Logout",lm.logout,4)
-    option4 = menu.add_option("Edit my preference",lambda:print("Here i can change my settings",3))
+    option1 = Add_option("Handle Cars",lambda: print("Here we can manage Cars"),1)
+    option2 = Add_option("Handle Users",lambda: print("Here we can manage Users"),2)
+    option3 = Add_option("Logout",lm.logout,4)
+    option4 = Add_option("Edit my preference",lambda:print("Here i can change my settings",3))
 def user_type2_menu():
     pass
 def user_type3_menu():
     pass
 def default_menu():
-    pass
-
-
-class add_option:
-    def __init__(self):
-        pass
-
-
-class Menu:
-    def __init__(self):
-        pass
-
-    def run(self):
-        pass
-
-    def display(self):
-        pass
-
-    def select_option(self):
-        pass
-
-    def create_sub_menu(self, menu):
-        pass
-
-
-def menu_option1():
-    pass
-
-
-def menu_option2():
-    pass
-
-
-def menu_option3():
-    pass
-
-
-def sub_menu_option1():
-    pass
-
-
-def sub_menu_option2():
-    pass
-
-
-def sub_menu_option3():
     pass
 
 

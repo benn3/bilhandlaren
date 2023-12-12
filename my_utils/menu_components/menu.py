@@ -1,7 +1,9 @@
-
 import itertools
-
 class Add_option:
+    """Use this class to create a option,and use withg Menu to create the menu.\n
+    alt is the text to be displayed as a option,\
+    func is the function wheres going to run when you select that option,\
+    priority is the order to display the options, where 1 is the first option and 9 is the last"""
     def __init__(self,alt,func,priority=0): # Lägger till en valfri parameter för prioritet
         self.alt = alt
         self.func = func
@@ -25,6 +27,12 @@ class Menu:
     sen lägger du till ev undermeny med append till Menu.options
     då skapas en Back funktioni menyn
     sen starar du menyn med Menu.start() i en ev. loop för oändlig inmatning
+    Create a menu or submenu\n
+    First you use Add_option to create the options you want in your menu,\n
+    then you use them in a list as parameter with Menu,\n
+    if you want to create a submenu for the menu,\n
+    create a seperate menu then use it with Menu.addSubMenu(submenu)\n
+    to start and load the menu use Menu.start()
     """
     count = itertools.count(1) # Skapar en räknare för att ge varje meny ett unikt id
     Menus = [] # Skapar en lista för att lagra alla menyer

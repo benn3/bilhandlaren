@@ -1,6 +1,18 @@
-from ..users import *
+from ..user_components import *
 from my_utils import common_functions
+from my_utils.common_functions import today
 class Car:
+    """
+    The Car class is used to create cars for the system\n
+    rplate is the unique identifier of an car and\n
+    brand,model explains itself, year is the year the car was produced\n
+    trip is the total miles the car has gone,\n
+    estValue is the estimated car value, and\n
+    owner is either a user object or in company storage\n
+    using print with a ar object tells you\n
+    brand, model, year and who owns it.\n
+    You can use the owner method to assign a new owner for a car object.
+    """
 
     all_cars = {}
 

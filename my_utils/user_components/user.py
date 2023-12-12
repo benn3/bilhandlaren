@@ -4,13 +4,18 @@ from ..common_functions import today
 
 
 class Person:
+    """Template for a person and that persons personal details. Used as super class for User.
+    birthdate should be enterd in YYYYMMDD if you dont enter a 8 symbol length string it will trigger
+    a metod that will ask you to enter a correct string.
+    Firstname,lastname,email are private instancevariables, to access them use get_variablename method ex.
+    get_firstname() printing a person object returns {firstname} {lastname}"""
 
 
 
     all_persons = {}
 
 
-    def __init__(self, firstname=None, lastname=None, email=None, adress=None, birth_date=None,phone_number=None):
+    def __init__(self, firstname=None, lastname=None,email=None,adress=None, birth_date=None,phone_number=None):
 
 
         self.__firstname = firstname
