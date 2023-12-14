@@ -1,0 +1,3 @@
+ben,benjamin,andersson,1,ben52646.andersson@gmail.com,19890423,0722065588,televägen 1,benne123
+tim,tom,karlsson,3,tom@gmail.com,19901211,0701234567,torsgatan 1,tom123
+test,olof,palm,1,palm@urkraft.se,19600517,0731234567,vetej 1,palm

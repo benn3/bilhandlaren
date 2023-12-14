@@ -1,6 +1,7 @@
 
-import datetime,itertools
-from ..common_functions import today
+import datetime,itertools,os
+from my_utils.common_functions import today
+#from ..common_functions import today
 
 
 class Person:
@@ -129,75 +130,72 @@ class User(Person):
             return User.all_users[username]["user_type"]
         else:
             return print("Theres no user with that username, try again")
-class login_manager:
 
-    # def __init__(self,title):
-    #     self.logedin_user = None
-    #     self.users_components = {}
-    #     self.title = title
-    #     with open("users_components.txt", "r") as f:
-    #         lines = f.readlines()
-    #         for line in lines:
-    #             line = line.strip()
-    #             if line:
-    #                 key, value = line.split(":")
-    #                 self.users_components[key] = value
+
+class loginManager:
     def __init__(self,title):
         self.logedin_user = None
         self.users = {}
         self.__title = title
-        with open("users_components.txt","r") as f:
+        self.collect_users()
+
+    def collect_users(self):
+        file_path = ""
+        file_path = os.path.join (os.path.dirname (os.path.dirname (os.path.dirname (__file__))), "users.txt")
+
+        with open(file_path, "r") as f:
             lines = f.readlines()
             for line in lines:
                 line = line.strip()
                 if line:
-                    username,firstname,lastname,user_type,email,birthdate,phone_number,adress,password = line.split(",")
-                    #self.users_components[username] = [firstname,lastname,user_type,email,adress,password]
+                    username, firstname, lastname, user_type, email, birthdate, phone_number, adress, password = line.split(
+                        ",")
                     self.users[username] = {
-                        "firstname":firstname,
-                        "lastname":lastname,
-                        "user_type":user_type,
-                        "email":email,
-                        "birth_date":birthdate,
-                        "phone_number":phone_number,
-                        "adress":adress,
-                        "password":password}
-        # for user in self.users_components.keys():
-        #     print(user," ",self.users_components[user].items())
-
+                        "firstname": firstname,
+                        "lastname": lastname,
+                        "user_type": user_type,
+                        "email": email,
+                        "birth_date": birthdate,
+                        "phone_number": phone_number,
+                        "adress": adress,
+                        "password": password}
     def create_user_objects(self):
         for user in self.users.keys():
             firstname,lastname,user_type,email,birth_date,phone_number,adress,password = self.users[user].values()
             print(user,firstname,lastname,user_type,email,birth_date,phone_number,adress,password)
             username = user
             pers =Person(firstname,lastname,email,adress,birth_date,phone_number)
-            print(pers)
             new_user = User(pers,username,password,user_type)
-            print(new_user)
 
-
-
+    def check_user_type(self):
+        if self.logedin_user is not None:
+            user_info = self.users.get(self.logedin_user)
+            if user_info:
+                return self.logedin_user, int(user_info["user_type"])
+        return None
 
     def login(self):
-        stored_username = ""
-        while True:
+        if self.logedin_user == None:
+            stored_username = ""
+            while True:
 
-            print("Enter your user credentials")
-            if stored_username == "":
-                username = input("Username: ")
-            else:
-                print(f"Username: {username}")
-                username = stored_username
-            if username in self.users.keys():
-                password = input("Password: ")
-                if self.users[username]["password"] == password:
-                    self.logedin_user = username
-                    print(f"Login successful! as {self.logedin_user}")
-                    return True
+                print("Enter your user credentials")
+                if stored_username == "":
+                    username = input("Username: ")
                 else:
-                    print("Wrong password")
-                    stored_username = username
-
+                    print(f"Username: {username}")
+                    username = stored_username
+                if username in self.users.keys():
+                    password = input("Password: ")
+                    if self.users[username]["password"] == password:
+                        self.logedin_user = username
+                        print(f"Login successful! as {self.logedin_user}")
+                        return self.logedin_user
+                    else:
+                        print("Wrong password")
+                        stored_username = username
+        else:
+            return self.logedin_user
 
     def update_file(self):
         # with open("users_components.txt","w") as f:
@@ -210,28 +208,6 @@ class login_manager:
                 line = line+','.join(str(element) for element in value)
                 f.write(line+"\n")
 
-
-            #for firstname,lastname,user_type,email,adress,password in self.users_components[key]:
-            #    print(f"{key},{firstname}, {lastname}, {user_type}, {email}, {adress}, {password}")
-
-
-
-    # def register(self):
-    #     username = None
-    #     password = None
-    #     while True:
-    #         username = input("Enter a username of your choice: ")
-    #         if password == None:
-    #             password = input("Enter a password for that user: ")
-    #
-    #             if username not in list(self.users_components.keys()):
-    #
-    #                 self.users_components[username] = password
-    #
-    #                 print("Register successful, you'll have to fill in your contact info upon first login!")
-    #                 return True
-    #             else:
-    #                 print("User exsists! try enter another username")
     def register(self,user):
         username = input("Enter a username: ")
         if username not in list(self.users.keys()):
@@ -243,12 +219,16 @@ class login_manager:
         if self.logedin_user is None:
             print("Theres no user logedin atm")
         else:
+            user = self.logedin_user
             self.logedin_user = None
+            print(f"Logout successful for {user}")
 
     def __str__(self):
         return
 
+
 def register_user():
+
     questions = ["firstname","lastname","user type","e-mail","adress","password"]
 
     answer = []
@@ -258,7 +238,8 @@ def register_user():
     #User(firstname, lastname, user_type, email, password)
     return User(*answer)
 
-def create_Person():
+
+def create_person():
     person_questions = ["firstname","lastname","email","adress","birth_date","phone_number"]
     person_info = {}
     for question in person_questions:
@@ -268,24 +249,12 @@ def create_Person():
     return person
 
 
-#user3 = register_user()
-#print(user3)
-
 person1 = Person("Benjamin","Andersson","ben52646.andersson@gmail.com","Televägen 1",19890423,+460722065588)
 user1 = User(person1,"Ben","ben123",1)
-#person1.create_birthdate()
-
-print(user1)
-#user2 = User()
-#user1 = User("benjamin","andersson",1,"ben52646.andersson@gmail.com","televägen 1","benne123")
-#user2 = User("olof","palm",1,"palm@urkraft.se","vetej 1","palm")
-    #v1 = create_Person()
 person2 = Person("Ben","Andersson","ben52646.andersson@gmail.com","televägen 1","19900422",+46722065588)
 user3 = User(person2,"b3n","benne123",1)
-#person2.validate_birth("19890423")
-
 user3.print_users()
-print(user3.check_password("benne12"))
-#skräp nedan
-#obj1 = Test1("benjamin","Andersson","ben")
-#obj2 = Test2(obj1)
+lm = loginManager("test")
+#lm.login()
+#user,type = lm.check_user_type()
+#print(f'user {user} type: {type}')
